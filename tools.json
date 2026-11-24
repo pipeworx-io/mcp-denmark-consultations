@@ -1,0 +1,114 @@
+[
+  {
+    "name": "list_consultations",
+    "description": "List Danish public consultations (hoeringer) on Høringsportalen, where every ministry and agency publishes draft bills and executive orders for comment. Defaults to consultations that are open now, soonest deadline first. Filter by title text (Danish, 3+ letters), authority (a ministry or agency name, e.g. \"Klima-, Energi- og Forsyningsministeriet\"), area, type (e.g. \"Lovforslag\", \"Bekendtgørelser\"), year (e.g. \"2025/2026\"), status (open, expired, archived, any) and a deadline window (deadline_from / deadline_to, YYYY-MM-DD). Returns id, title, authority, type, area, status, deadline, publication date and link, with the total matching count. A name that matches no authority returns an error naming the nearest ones. Pair with get_consultation and list_responses.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "Word(s) in the title or text, Danish, at least 3 letters"
+        },
+        "authority": {
+          "type": "string",
+          "description": "Ministry or agency name (Danish), e.g. \"Skatteministeriet\" or part of one"
+        },
+        "area": {
+          "type": "string",
+          "description": "Subject area, e.g. \"Natur og klima\", \"Sundhed\""
+        },
+        "type": {
+          "type": "string",
+          "description": "Consultation type, e.g. \"Lovforslag\", \"Bekendtgørelser\", \"Vejledning\""
+        },
+        "year": {
+          "type": "string",
+          "description": "Consultation year as the portal writes it, e.g. \"2025/2026\""
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "open",
+            "expired",
+            "archived",
+            "any"
+          ],
+          "description": "open (default), expired (deadline passed), archived, or any"
+        },
+        "deadline_from": {
+          "type": "string",
+          "description": "Earliest deadline, YYYY-MM-DD"
+        },
+        "deadline_to": {
+          "type": "string",
+          "description": "Latest deadline, YYYY-MM-DD"
+        },
+        "limit": {
+          "type": "number",
+          "description": "Rows to return, 1-100 (default 20)"
+        },
+        "skip": {
+          "type": "number",
+          "description": "Rows to skip (not with a deadline window)"
+        }
+      }
+    }
+  },
+  {
+    "name": "get_consultation",
+    "description": "One Danish public consultation by its portal number (from list_consultations): title, description, authority, type, area, status (open, expired, archived), publication date, deadline and its remarks, archive and effective dates, the contact unit (not the official's name or e-mail), and every document with its group (consultation documents, summary note, responses), size and link. Returns found false when the number does not exist.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "description": "Consultation number, e.g. 71540"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "name": "list_responses",
+    "description": "The responses to one Danish public consultation: the published response documents with links, the ministry summary note and the list of hearing parties, and the names of the ORGANISATIONS and public authorities that submitted comments (read from the summary note). A private individual who responded is counted in private_individual_respondents and never named. Says explicitly when the consultation is still open, when no responses are published, or when the note carries no list of respondents.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "description": "Consultation number, e.g. 71540"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "name": "recent_consultations",
+    "description": "Danish public consultations opened or closed in the last N days. kind \"opened\" (default) lists those published in the window, newest first; kind \"closed\" lists those whose deadline passed in the window. days 1-90 (default 7), limit 1-100 (default 30). Each row has id, title, authority, type, area, status, deadline, publication date and link. The earliest signal of upcoming legislation.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "days": {
+          "type": "number",
+          "description": "Days back from today, 1-90 (default 7)"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "opened",
+            "closed"
+          ],
+          "description": "opened (published in the window, default) or closed (deadline passed in the window)"
+        },
+        "limit": {
+          "type": "number",
+          "description": "Rows to return, 1-100 (default 30)"
+        }
+      }
+    }
+  }
+]

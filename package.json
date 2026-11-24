@@ -1,0 +1,33 @@
+{
+  "name": "@pipeworx/mcp-denmark-consultations",
+  "version": "0.1.0",
+  "description": "Danish public consultations -- Høringsportalen, the government consultation portal run by Civilstyrelsen. Draft bills and executive orders from every ministry and agency are published there for comment, and after the deadline the ministry adds the responses and its summary note.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./tools.json": "./tools.json",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "mcp-denmark-consultations": "bin/cli.js"
+  },
+  "files": ["bin/", "lib/", "tools.json", "server.json"],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": ["mcp", "mcp-server", "model-context-protocol", "pipeworx", "denmark-consultations"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pipeworx-io/mcp-denmark-consultations.git"
+  },
+  "mcpName": "io.github.pipeworx-io/denmark-consultations",
+  "pipeworx": {
+    "mode": "gateway",
+    "slug": "denmark-consultations",
+    "gatewaySlug": "denmark-consultations",
+    "sourceHash": "v1-2eca7586f2c78fcfa2a9787ac67e8f0b499cea1c74ef8268edf52f22f9bba1f7",
+    "sourceCommit": "e370ff79e0e47e1988d163542982b124c526d11f"
+  }
+}
